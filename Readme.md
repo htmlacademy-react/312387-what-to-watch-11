@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Сергей Говендяев](https://up.htmlacademy.ru/react/11/user/312387).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Кислый](https://htmlacademy.ru/profile/smart-grizzly).
 
 ---
 
