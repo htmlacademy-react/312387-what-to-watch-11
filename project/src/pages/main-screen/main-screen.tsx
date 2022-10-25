@@ -1,3 +1,5 @@
+import {Helmet} from 'react-helmet-async';
+import Logo from '../../components/logo/logo';
 import SmallFilmCard from '../../components/small-film-card/small-film-card';
 
 import {SmallCard} from '../../index';
@@ -16,6 +18,11 @@ function MainScreen(props: MainScreenProps): JSX.Element {
   return (
     <>
       <section className="film-card">
+
+        <Helmet>
+          <title>WTW main page</title>
+        </Helmet>
+
         <div className="film-card__bg">
           <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
         </div>
@@ -23,13 +30,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <ul className="user-block">
             <li className="user-block__item">
@@ -115,7 +116,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
 
           <div className="catalog__films-list">
 
-            {smallFilmCards.map((film) => <SmallFilmCard key={`${film.id}`} title={film.title} img={film.img} />)}
+            {smallFilmCards.map((film) => <SmallFilmCard key={`${film.id}`} film={film} />)}
 
           </div>
 
