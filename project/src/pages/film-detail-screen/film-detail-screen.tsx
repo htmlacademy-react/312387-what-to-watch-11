@@ -1,18 +1,61 @@
+import {useState} from 'react';
 import {Helmet} from 'react-helmet-async';
+import {Link, useParams} from 'react-router-dom';
+import FilmDetails from '../../components/film-details/film-details';
+import FilmNav from '../../components/film-nav/film-nav';
+import FilmOverview from '../../components/film-overview/film-overview';
+import FilmReviews from '../../components/film-reviews/film-reviews';
+import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
+import {getFilmById} from '../../mocks/films';
+import {reviews} from '../../mocks/reviews';
+import {Films} from '../../types/film';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-function FilmDetailScreen(): JSX.Element {
+type FilmsListProps = {
+  smallFilmCards: Films;
+}
+
+function FilmDetailScreen({smallFilmCards}: FilmsListProps): JSX.Element {
+
+  const [currentView, setCurrentView] = useState('overview');
+
+  const params = useParams();
+  const film = getFilmById(Number(params.id));
+
+  if (!film) {
+    return <NotFoundScreen />;
+  }
+
+  /** TODO: убрать из компонента (подумать над реализацией) */
+  function renderSwitchView() {
+    if (!film) {
+      return false;
+    }
+
+    switch (currentView) {
+      case 'overview':
+        return <FilmOverview film={film}/>;
+      case 'details':
+        return <FilmDetails film={film}/>;
+      case 'reviews':
+        return <FilmReviews reviews={reviews}/>;
+      default:
+        return <FilmOverview film={film}/>;
+    }
+  }
+
   return (
     <>
       <section className="film-card film-card--full">
 
         <Helmet>
-          <title>The Grand Budapest Hotel</title>
+          <title>{film.title}</title>
         </Helmet>
 
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={film.bgImage ?? film.img} alt={film.title} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -34,19 +77,19 @@ function FilmDetailScreen(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{film.title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.year}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <Link to={`/player/${film.id}`} className="btn btn--play film-card__button" >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
@@ -54,7 +97,7 @@ function FilmDetailScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link to={`/films/${film.id}/review`} className="btn film-card__button" >Add review</Link>
               </div>
             </div>
           </div>
@@ -63,41 +106,13 @@ function FilmDetailScreen(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={film.img} alt={film.title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
+              <FilmNav currentView={currentView} handleTabClick={(view: string) => setCurrentView(view)}/>
 
-              <div className="film-rating">
-                <div className="film-rating__score">8,9</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.</p>
-
-                <p>Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
-
-                <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
-              </div>
+              {renderSwitchView()}
             </div>
           </div>
         </div>
@@ -108,41 +123,7 @@ function FilmDetailScreen(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Aviator</a>
-              </h3>
-            </article>
+            <FilmsList smallFilmCards={smallFilmCards} />
           </div>
         </section>
 
