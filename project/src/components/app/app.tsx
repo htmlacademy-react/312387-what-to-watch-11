@@ -4,7 +4,6 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 
 import MainScreen from '../../pages/main-screen/main-screen';
 
-import {SmallCard} from '../../index';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import PrivateRoute from '../private-route/private-route';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
@@ -12,17 +11,15 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import FilmDetailScreen from '../../pages/film-detail-screen/film-detail-screen';
+import {Films} from '../../types/film';
 
 type AppScreenProps = {
-  filmTitle: string;
-  filmGenre: string;
-  filmYear: string;
-  smallFilmCards: SmallCard[];
+  smallFilmCards: Films;
 }
 
 function App(props: AppScreenProps): JSX.Element {
 
-  const {filmTitle, filmGenre, filmYear, smallFilmCards} = props;
+  const {smallFilmCards} = props;
 
   return (
     <HelmetProvider>
@@ -31,21 +28,16 @@ function App(props: AppScreenProps): JSX.Element {
           <Route
             path={AppRoute.Root}
             element={
-              <MainScreen
-                filmTitle={filmTitle}
-                filmGenre={filmGenre}
-                filmYear={filmYear}
-                smallFilmCards={smallFilmCards}
-              />
+              <MainScreen smallFilmCards={smallFilmCards} />
             }
           />
           <Route
             path={AppRoute.MyList}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={AuthorizationStatus.Auth}
               >
-                <MyListScreen />
+                <MyListScreen smallFilmCards={smallFilmCards} />
               </PrivateRoute>
             }
           />
@@ -59,7 +51,7 @@ function App(props: AppScreenProps): JSX.Element {
           />
           <Route
             path={AppRoute.Film}
-            element={<FilmDetailScreen />}
+            element={<FilmDetailScreen smallFilmCards={smallFilmCards.slice(0, 4)} />}
           />
           <Route
             path={AppRoute.Login}

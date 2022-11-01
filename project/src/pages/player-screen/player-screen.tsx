@@ -1,9 +1,29 @@
+import {useNavigate, useParams} from 'react-router-dom';
+import {getFilmById} from '../../mocks/films';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+
 function PlayerScreen(): JSX.Element {
+
+  const navigate = useNavigate();
+
+  const params = useParams();
+  const film = getFilmById(Number(params.id));
+
+  if (!film) {
+    return <NotFoundScreen />;
+  }
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={film.src} className="player__video" poster="img/player-poster.jpg"></video>
 
-      <button type="button" className="player__exit">Exit</button>
+      <button
+        type="button"
+        className="player__exit"
+        onClick={() => navigate(-1)}
+      >
+        Exit
+      </button>
 
       <div className="player__controls">
         <div className="player__controls-row">
