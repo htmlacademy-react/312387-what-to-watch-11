@@ -1,6 +1,7 @@
 import {useState} from 'react';
-import SmallFilmCard from '../../components/small-film-card/small-film-card';
+import {TimeValue} from '../../const';
 import {Films} from '../../types/film';
+import SmallFilmCard from '../../components/small-film-card/small-film-card';
 
 type FilmsListProps = {
   smallFilmCards: Films;
@@ -15,7 +16,7 @@ function FilmsList({smallFilmCards}: FilmsListProps): JSX.Element {
   function handleFilmMouseEnter(id: number): void {
     timeoutId = setTimeout(() => {
       setActiveFilmId(id);
-    }, 1000);
+    }, TimeValue.PreviewStartTimeout);
   }
 
   function handleFilmMouseOut(): void {
@@ -29,7 +30,8 @@ function FilmsList({smallFilmCards}: FilmsListProps): JSX.Element {
     <div className="catalog__films-list" >
       {smallFilmCards.map((film) => (
         <SmallFilmCard
-          key={`${film.id}`} film={film}
+          key={`${film.id}`}
+          film={film}
           isPlaying={activeFilmId === film.id}
           handleFilmMouseEnter={() => handleFilmMouseEnter(film.id)}
           handleFilmMouseOut={handleFilmMouseOut}

@@ -1,13 +1,14 @@
 import {useEffect, useRef} from 'react';
+import {ErrorMessage} from '../../const';
 
 type VideoPlayerProps = {
   src: string;
-  muted: boolean;
   poster: string;
+  isMuted: boolean;
   isPlaying: boolean;
 }
 
-function VideoPlayer({isPlaying, src, poster, muted}: VideoPlayerProps): JSX.Element {
+function VideoPlayer({isPlaying, src, poster, isMuted}: VideoPlayerProps): JSX.Element {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -30,8 +31,9 @@ function VideoPlayer({isPlaying, src, poster, muted}: VideoPlayerProps): JSX.Ele
       ref={videoRef}
       className="player__video"
       poster={poster}
-      muted={muted}
+      muted={isMuted}
     >
+      {ErrorMessage.VideoSupport}
     </video>
   );
 }

@@ -1,7 +1,9 @@
 import {useState, useEffect, useRef} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {getFilmById} from '../../mocks/films';
+import {ErrorMessage, TimeValue} from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+
 
 function PlayerScreen(): JSX.Element {
 
@@ -18,14 +20,14 @@ function PlayerScreen(): JSX.Element {
   const [currentTime, setCurrentTime] = useState(0);
   const [durationTime, setDurationTime] = useState(0);
 
-  const tooglerValue = `${((currentTime / durationTime) * 100)}%`;
+  const tooglerValue = `${((currentTime / durationTime) * TimeValue.Hundred)}%`;
 
   function countTimeLeft(): string {
     const timeDifference = durationTime - currentTime;
 
-    const minutes = Math.trunc(timeDifference / 60);
-    const seconds = Math.trunc(timeDifference % 60);
-    const hours = Math.trunc(minutes / 60);
+    const minutes = Math.trunc(timeDifference / TimeValue.DefaultSecondsCount);
+    const seconds = Math.trunc(timeDifference % TimeValue.DefaultSecondsCount);
+    const hours = Math.trunc(minutes / TimeValue.DefaultSecondsCount);
 
     const result = [];
 
@@ -116,6 +118,7 @@ function PlayerScreen(): JSX.Element {
         poster={film.img}
         muted={false}
       >
+        {ErrorMessage.VideoSupport}
       </video>
 
       <button

@@ -12,12 +12,17 @@ type SmallFilmCardProps = {
 function SmallFilmCard({film, isPlaying, handleFilmMouseEnter, handleFilmMouseOut}: SmallFilmCardProps): JSX.Element {
   return (
     <article
+      className="small-film-card catalog__films-card"
       onMouseEnter={handleFilmMouseEnter}
       onMouseOut={handleFilmMouseOut}
-      className="small-film-card catalog__films-card"
     >
       <div className="small-film-card__image">
-        <VideoPlayer src={film.src} isPlaying={isPlaying} poster={film.img} muted />
+        <VideoPlayer
+          src={film.src}
+          poster={film.img}
+          isPlaying={isPlaying}
+          isMuted
+        />
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`/films/${film.id}`}>{film.title}</Link>
