@@ -18,3 +18,13 @@ export enum Nav {
   Details = 'details',
   Reviews = 'reviews'
 }
+
+export enum TimeValue {
+  PreviewStartTimeout = 1000,
+  DefaultSecondsCount = 60,
+  Hundred = 100
+}
+
+export enum ErrorMessage {
+  VideoSupport = 'The video tag is not supported by your browser.'
+}

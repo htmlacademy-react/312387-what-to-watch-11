@@ -1,16 +1,28 @@
 import {Link} from 'react-router-dom';
 import {Film} from '../../types/film';
+import VideoPlayer from '../video-player/video-player';
 
 type SmallFilmCardProps = {
   film: Film;
+  isPlaying: boolean;
   handleFilmMouseEnter: () => void;
+  handleFilmMouseOut: () => void;
 }
 
-function SmallFilmCard({film, handleFilmMouseEnter}: SmallFilmCardProps): JSX.Element {
+function SmallFilmCard({film, isPlaying, handleFilmMouseEnter, handleFilmMouseOut}: SmallFilmCardProps): JSX.Element {
   return (
-    <article onMouseEnter={handleFilmMouseEnter} className="small-film-card catalog__films-card">
+    <article
+      className="small-film-card catalog__films-card"
+      onMouseEnter={handleFilmMouseEnter}
+      onMouseOut={handleFilmMouseOut}
+    >
       <div className="small-film-card__image">
-        <img src={film.img} alt={film.title} width="280" height="175" />
+        <VideoPlayer
+          src={film.src}
+          poster={film.img}
+          isPlaying={isPlaying}
+          isMuted
+        />
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`/films/${film.id}`}>{film.title}</Link>
