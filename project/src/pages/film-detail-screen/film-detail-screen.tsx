@@ -7,16 +7,11 @@ import FilmOverview from '../../components/film-overview/film-overview';
 import FilmReviews from '../../components/film-reviews/film-reviews';
 import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
-import {getFilmById} from '../../mocks/films';
-import {reviews} from '../../mocks/reviews';
-import {Films} from '../../types/film';
+import { Nav } from '../../const';
+import {getFilmById, getFilmsByGenre} from '../../mocks/films';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-type FilmsListProps = {
-  smallFilmCards: Films;
-}
-
-function FilmDetailScreen({smallFilmCards}: FilmsListProps): JSX.Element {
+function FilmDetailScreen(): JSX.Element {
 
   const [currentView, setCurrentView] = useState('overview');
 
@@ -27,23 +22,20 @@ function FilmDetailScreen({smallFilmCards}: FilmsListProps): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  /** TODO: убрать из компонента (подумать над реализацией) */
-  function renderSwitchView() {
-    if (!film) {
-      return false;
-    }
+  const relatedFilms = getFilmsByGenre(film.genre);
 
+  const renderSwitchView = (): JSX.Element => {
     switch (currentView) {
-      case 'overview':
+      case Nav.Overview:
         return <FilmOverview film={film}/>;
-      case 'details':
+      case Nav.Details:
         return <FilmDetails film={film}/>;
-      case 'reviews':
-        return <FilmReviews reviews={reviews}/>;
+      case Nav.Reviews:
+        return <FilmReviews film={film}/>;
       default:
         return <FilmOverview film={film}/>;
     }
-  }
+  };
 
   return (
     <>
@@ -110,7 +102,10 @@ function FilmDetailScreen({smallFilmCards}: FilmsListProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <FilmNav currentView={currentView} handleTabClick={(view: string) => setCurrentView(view)}/>
+              <FilmNav
+                currentView={currentView}
+                onTabClick={(view: string) => setCurrentView(view)}
+              />
 
               {renderSwitchView()}
             </div>
@@ -123,7 +118,7 @@ function FilmDetailScreen({smallFilmCards}: FilmsListProps): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmsList smallFilmCards={smallFilmCards} />
+            <FilmsList smallFilmCards={relatedFilms} />
           </div>
         </section>
 

@@ -1,3 +1,4 @@
+import {FilmValue} from '../const';
 import {Films, Film} from '../types/film';
 
 export const films: Films = [
@@ -258,5 +259,9 @@ export const films: Films = [
 
 export function getFilmById(id: number): Film | undefined {
   return films.find(($item) => $item.id === id );
+}
+
+export function getFilmsByGenre(genre: string): Films {
+  return films.filter((film) => film.genre === genre).slice(0, FilmValue.MaxReletedCount);
 }
 

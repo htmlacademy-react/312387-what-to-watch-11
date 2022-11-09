@@ -17,9 +17,7 @@ type AppScreenProps = {
   smallFilmCards: Films;
 }
 
-function App(props: AppScreenProps): JSX.Element {
-
-  const {smallFilmCards} = props;
+function App({smallFilmCards}: AppScreenProps): JSX.Element {
 
   return (
     <HelmetProvider>
@@ -51,7 +49,7 @@ function App(props: AppScreenProps): JSX.Element {
           />
           <Route
             path={AppRoute.Film}
-            element={<FilmDetailScreen smallFilmCards={smallFilmCards.slice(0, 4)} />}
+            element={<FilmDetailScreen />}
           />
           <Route
             path={AppRoute.Login}
