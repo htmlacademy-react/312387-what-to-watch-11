@@ -1,11 +1,12 @@
+import { Link } from 'react-router-dom';
 import {Nav} from '../../const';
 
 type FilmNavProps = {
   currentView: string;
-  handleTabClick: (view: string) => void;
+  onTabClick: (view: string) => void;
 }
 
-function FilmNav({currentView, handleTabClick}: FilmNavProps): JSX.Element {
+function FilmNav({currentView, onTabClick}: FilmNavProps): JSX.Element {
 
   const tabs = Object.values(Nav);
 
@@ -15,16 +16,16 @@ function FilmNav({currentView, handleTabClick}: FilmNavProps): JSX.Element {
 
         {tabs.map((item: string) => (
           <li key={item} className={`film-nav__item ${currentView === item ? 'film-nav__item--active' : ''}`}>
-            <a
-              href="#todo"
+            <Link
+              to="/"
+              className="film-nav__link"
               onClick={(evt: React.MouseEvent) => {
                 evt.preventDefault();
-                handleTabClick(item);
+                onTabClick(item);
               }}
-              className="film-nav__link"
             >
               {item}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

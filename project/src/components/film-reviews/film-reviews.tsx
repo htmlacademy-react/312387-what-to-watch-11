@@ -1,15 +1,19 @@
-import {Reviews} from '../../types/review';
+import {Film} from '../../types/film';
 import ReviewCard from '../review-card/review-card';
+import {reviews} from '../../mocks/reviews';
 
 type FilmReviewsProps = {
-  reviews: Reviews;
+  film: Film;
 }
 
-function FilmReviews({reviews}: FilmReviewsProps): JSX.Element {
+function FilmReviews({film}: FilmReviewsProps): JSX.Element {
 
-  const halfSize: number = Math.ceil(reviews.length / 2);
-  const leftColumnReviews: Reviews = reviews.slice(0, halfSize);
-  const rightColumnReviews: Reviews = reviews.slice(halfSize);
+  // todo: изменить условия фильтра когда будут данные film.id === review.filmId
+  const filmReviews = reviews.filter(() => film.id);
+
+  const halfSize = Math.ceil(reviews.length / 2);
+  const leftColumnReviews = filmReviews.slice(0, halfSize);
+  const rightColumnReviews = filmReviews.slice(halfSize);
 
   return (
     <div className="film-card__reviews film-card__row">
