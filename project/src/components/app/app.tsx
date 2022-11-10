@@ -11,13 +11,8 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import FilmDetailScreen from '../../pages/film-detail-screen/film-detail-screen';
-import {Films} from '../../types/film';
 
-type AppScreenProps = {
-  smallFilmCards: Films;
-}
-
-function App({smallFilmCards}: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
 
   return (
     <HelmetProvider>
@@ -26,22 +21,28 @@ function App({smallFilmCards}: AppScreenProps): JSX.Element {
           <Route
             path={AppRoute.Root}
             element={
-              <MainScreen smallFilmCards={smallFilmCards} />
+              <MainScreen />
             }
           />
           <Route
             path={AppRoute.MyList}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth}
+                authorizationStatus={AuthorizationStatus.NoAuth}
               >
-                <MyListScreen smallFilmCards={smallFilmCards} />
+                <MyListScreen />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.AddReview}
-            element={<AddReviewScreen />}
+            element={
+              <PrivateRoute
+                authorizationStatus={AuthorizationStatus.NoAuth}
+              >
+                <AddReviewScreen />
+              </PrivateRoute>
+            }
           />
           <Route
             path={AppRoute.Player}

@@ -1,14 +1,12 @@
 import {Helmet} from 'react-helmet-async';
 import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
+import {useAppSelector} from '../../hooks';
 
-import {Films} from '../../types/film';
+function MyListScreen(): JSX.Element {
 
-type MyListProps = {
-  smallFilmCards: Films;
-}
+  const smallFilmCards = useAppSelector((state) => state.filmsByGenre);
 
-function MyListScreen({smallFilmCards}: MyListProps): JSX.Element {
   return (
     <div className="user-page">
 
