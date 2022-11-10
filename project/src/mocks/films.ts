@@ -5,7 +5,7 @@ export const films: Films = [
   {
     id: 1,
     title: 'Fantastic Beasts: The Crimes of Grindelwald',
-    genre: 'Drama',
+    genre: 'Comedies',
     year: '2014',
     img: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
     time: '1h 39m',
@@ -17,7 +17,7 @@ export const films: Films = [
   {
     id: 2,
     title: 'Bohemian Rhapsody',
-    genre: 'Drama',
+    genre: 'Crime',
     year: '2014',
     img: 'img/bohemian-rhapsody.jpg',
     time: '1h 39m',
@@ -29,7 +29,7 @@ export const films: Films = [
   {
     id: 3,
     title: 'Macbeth',
-    genre: 'Drama',
+    genre: 'Documentary',
     year: '2014',
     img: 'img/macbeth.jpg',
     time: '1h 39m',
@@ -41,7 +41,7 @@ export const films: Films = [
   {
     id: 4,
     title: 'Aviator',
-    genre: 'Drama',
+    genre: 'Dramas',
     year: '2014',
     img: 'img/aviator.jpg',
     time: '1h 39m',
@@ -53,7 +53,7 @@ export const films: Films = [
   {
     id: 5,
     title: 'We need to talk about Kevin',
-    genre: 'Drama',
+    genre: 'Horror',
     year: '2014',
     img: 'img/we-need-to-talk-about-kevin.jpg',
     time: '1h 39m',
@@ -65,7 +65,7 @@ export const films: Films = [
   {
     id: 6,
     title: 'What We Do in the Shadows',
-    genre: 'Drama',
+    genre: 'Kids & Family',
     year: '2014',
     img: 'img/what-we-do-in-the-shadows.jpg',
     time: '1h 39m',
@@ -77,7 +77,7 @@ export const films: Films = [
   {
     id: 7,
     title: 'Revenant',
-    genre: 'Drama',
+    genre: 'Romance',
     year: '2014',
     img: 'img/revenant.jpg',
     time: '1h 39m',
@@ -89,7 +89,7 @@ export const films: Films = [
   {
     id: 8,
     title: 'Johnny English',
-    genre: 'Drama',
+    genre: 'Sci-Fi',
     year: '2014',
     img: 'img/johnny-english.jpg',
     time: '1h 39m',
@@ -101,7 +101,7 @@ export const films: Films = [
   {
     id: 9,
     title: 'Shutter Island',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/shutter-island.jpg',
     time: '1h 39m',
@@ -113,7 +113,7 @@ export const films: Films = [
   {
     id: 10,
     title: 'Pulp Fiction',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/pulp-fiction.jpg',
     time: '1h 39m',
@@ -125,7 +125,7 @@ export const films: Films = [
   {
     id: 11,
     title: 'No Country for Old Men',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/no-country-for-old-men.jpg',
     time: '1h 39m',
@@ -137,7 +137,7 @@ export const films: Films = [
   {
     id: 12,
     title: 'Snatch',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/snatch.jpg',
     time: '1h 39m',
@@ -149,7 +149,7 @@ export const films: Films = [
   {
     id: 13,
     title: 'Moonrise Kingdom',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/moonrise-kingdom.jpg',
     time: '1h 39m',
@@ -161,7 +161,7 @@ export const films: Films = [
   {
     id: 14,
     title: 'Seven Years in Tibet',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/seven-years-in-tibet.jpg',
     time: '1h 39m',
@@ -173,7 +173,7 @@ export const films: Films = [
   {
     id: 15,
     title: 'Midnight Special',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/midnight-special.jpg',
     time: '1h 39m',
@@ -185,7 +185,7 @@ export const films: Films = [
   {
     id: 16,
     title: 'War of the Worlds',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/war-of-the-worlds.jpg',
     time: '1h 39m',
@@ -197,7 +197,7 @@ export const films: Films = [
   {
     id: 17,
     title: 'Dardjeeling Limited',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/dardjeeling-limited.jpg',
     time: '1h 39m',
@@ -209,7 +209,7 @@ export const films: Films = [
   {
     id: 18,
     title: 'Orlando',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/orlando.jpg',
     time: '1h 39m',
@@ -221,7 +221,7 @@ export const films: Films = [
   {
     id: 19,
     title: 'Mindhunter',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/mindhunter.jpg',
     time: '1h 39m',
@@ -233,7 +233,7 @@ export const films: Films = [
   {
     id: 20,
     title: 'Midnight Special',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/midnight-special.jpg',
     time: '1h 39m',
@@ -245,7 +245,7 @@ export const films: Films = [
   {
     id: 21,
     title: 'The Grand Budapest Hotel',
-    genre: 'Drama',
+    genre: 'Thrillers',
     year: '2014',
     img: 'img/the-grand-budapest-hotel-poster.jpg',
     bgImage: 'img/bg-the-grand-budapest-hotel.jpg',
@@ -257,11 +257,32 @@ export const films: Films = [
   },
 ];
 
+export const promoFilm: Film = {
+  id: 21,
+  title: 'The Grand Budapest Hotel',
+  genre: 'Thrillers',
+  year: '2014',
+  img: 'img/the-grand-budapest-hotel-poster.jpg',
+  bgImage: 'img/bg-the-grand-budapest-hotel.jpg',
+  time: '1h 39m',
+  director: 'Wes Anderson',
+  starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan', 'Tony Revoloru', 'Tilda Swinton', 'Tom Wilkinson', 'Owen Wilkinson', 'Adrien Brody', 'Ralph Fiennes', 'Jeff Goldblum'],
+  src: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+  description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege. Gustave prides himself on providing first-className service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.'
+};
+
 export function getFilmById(id: number): Film | undefined {
   return films.find(($item) => $item.id === id );
 }
 
 export function getFilmsByGenre(genre: string): Films {
-  return films.filter((film) => film.genre === genre).slice(0, FilmValue.MaxReletedCount);
+  if (genre === FilmValue.DefaultStateGenre) {
+    return films;
+  }
+  return films.filter((film) => film.genre === genre);
 }
 
+export function getGenresList(): string[] {
+  const genres = new Set(films.map((film) => film.genre));
+  return [FilmValue.DefaultStateGenre as string, ...genres];
+}

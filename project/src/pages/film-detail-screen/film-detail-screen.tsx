@@ -7,7 +7,7 @@ import FilmOverview from '../../components/film-overview/film-overview';
 import FilmReviews from '../../components/film-reviews/film-reviews';
 import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
-import { Nav } from '../../const';
+import {FilmValue, Nav} from '../../const';
 import {getFilmById, getFilmsByGenre} from '../../mocks/films';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
@@ -22,7 +22,7 @@ function FilmDetailScreen(): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  const relatedFilms = getFilmsByGenre(film.genre);
+  const relatedFilms = getFilmsByGenre(film.genre).slice(0, FilmValue.MaxReletedCount);
 
   const renderSwitchView = (): JSX.Element => {
     switch (currentView) {
@@ -117,9 +117,7 @@ function FilmDetailScreen(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            <FilmsList smallFilmCards={relatedFilms} />
-          </div>
+          <FilmsList smallFilmCards={relatedFilms} />
         </section>
 
         <footer className="page-footer">
