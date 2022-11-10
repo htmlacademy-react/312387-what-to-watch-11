@@ -1,16 +1,18 @@
 import {Helmet} from 'react-helmet-async';
 import FilmCard from '../../components/film-card/film-card';
 import FilmsList from '../../components/films-list/films-list';
+import GenresList from '../../components/genres-list/genres-list';
+import Logo from '../../components/logo/logo';
+import {getGenresList} from '../../mocks/films';
+import {useAppSelector} from '../../hooks';
+import {promoFilm} from '../../mocks/films';
 
-import {Films} from '../../types/film';
+function MainScreen(): JSX.Element {
 
-type MainScreenProps = {
-  smallFilmCards: Films;
-}
+  const smallFilmCards = useAppSelector((state) => state.filmsByGenre);
 
-function MainScreen(props: MainScreenProps): JSX.Element {
-
-  const {smallFilmCards} = props;
+  const activeGenre = useAppSelector((state) => state.activeGenre);
+  const genresList = getGenresList();
 
   return (
     <>
@@ -18,44 +20,13 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         <title>WTW main page</title>
       </Helmet>
 
-      <FilmCard film={smallFilmCards[20]}/>
+      <FilmCard film={promoFilm}/>
 
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
+          <GenresList currentGenre={activeGenre} genres={genresList}/>
 
           <FilmsList smallFilmCards={smallFilmCards} />
 
@@ -65,14 +36,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
+          <Logo light />
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
           </div>
