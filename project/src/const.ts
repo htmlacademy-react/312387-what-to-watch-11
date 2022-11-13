@@ -30,6 +30,7 @@ export enum ErrorMessage {
 }
 
 export enum FilmValue {
+  MaxCount = 8,
   MaxReletedCount = 4,
   DefaultStateGenre = 'All genre'
 }

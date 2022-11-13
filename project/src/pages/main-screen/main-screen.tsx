@@ -6,6 +6,10 @@ import Logo from '../../components/logo/logo';
 import {getGenresList} from '../../mocks/films';
 import {useAppSelector} from '../../hooks';
 import {promoFilm} from '../../mocks/films';
+import ShowMore from '../../components/show-more/show-more';
+import {useEffect, useState } from 'react';
+import {FilmValue} from '../../const';
+import {Films} from '../../types/film';
 
 function MainScreen(): JSX.Element {
 
@@ -13,6 +17,30 @@ function MainScreen(): JSX.Element {
 
   const activeGenre = useAppSelector((state) => state.activeGenre);
   const genresList = getGenresList();
+
+  const [visibleFilmCards, setVisibleFilmCards] = useState<Films>([]);
+
+  useEffect(() => {
+    let isFilmsListMounted = true;
+
+    if (isFilmsListMounted) {
+      setVisibleFilmCards(smallFilmCards.slice(0, FilmValue.MaxCount));
+    }
+
+    return () => {
+      isFilmsListMounted = false;
+    };
+  }, [smallFilmCards]);
+
+  function handleMoreButtonClick() {
+    setVisibleFilmCards((prevState) => [
+      ...prevState,
+      ...smallFilmCards.slice(
+        visibleFilmCards.length,
+        visibleFilmCards.length + FilmValue.MaxCount
+      )
+    ]);
+  }
 
   return (
     <>
@@ -28,11 +56,9 @@ function MainScreen(): JSX.Element {
 
           <GenresList currentGenre={activeGenre} genres={genresList}/>
 
-          <FilmsList smallFilmCards={smallFilmCards} />
+          <FilmsList smallFilmCards={visibleFilmCards} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {smallFilmCards.length > visibleFilmCards.length && <ShowMore onMore={handleMoreButtonClick} />}
         </section>
 
         <footer className="page-footer">
