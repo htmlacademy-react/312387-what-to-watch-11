@@ -1,9 +1,12 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state.js';
-import {loadFilms, loadPromo, setFilmsDataLoadingStatus} from './action';
-import {APIRoute} from '../const';
-import {Film, Films} from '../types/film.js';
+import {AppDispatch, State} from '../types/state';
+import {loadFilms, loadPromo, setFilmsDataLoadingStatus, requireAuthorization, redirectToRoute, loadUser} from './action';
+import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
+import {Film, Films} from '../types/film';
+import {AuthData} from '../types/auth-data';
+import {UserData} from '../types/user-data';
+import {dropToken, saveToken} from '../services/token';
 
 export const fetchFilmAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -33,7 +36,6 @@ export const fetchPromoAction = createAsyncThunk<void, undefined, {
   },
 );
 
-/** Todo: Будет использовано для реализации следующей задачи модуля module7-task2
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -42,7 +44,8 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get<UserData>(APIRoute.Login);
+      dispatch(loadUser(data));
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
@@ -60,7 +63,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Result));
+    dispatch(redirectToRoute(AppRoute.MyList));
   },
 );
 
@@ -76,4 +79,3 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );
-**/
