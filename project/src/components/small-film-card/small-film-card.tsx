@@ -18,14 +18,14 @@ function SmallFilmCard({film, isPlaying, handleFilmMouseEnter, handleFilmMouseOu
     >
       <div className="small-film-card__image">
         <VideoPlayer
-          src={film.src}
-          poster={film.img}
+          src={film.previewVideoLink}
+          poster={film.posterImage}
           isPlaying={isPlaying}
           isMuted
         />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${film.id}`}>{film.title}</Link>
+        <Link className="small-film-card__link" to={`/films/${film.id}`}>{film.name}</Link>
       </h3>
     </article>
   );

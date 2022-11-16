@@ -5,7 +5,7 @@ import {useAppSelector} from '../../hooks';
 
 function MyListScreen(): JSX.Element {
 
-  const smallFilmCards = useAppSelector((state) => state.filmsByGenre);
+  const smallFilmCards = useAppSelector((state) => state.films);
 
   return (
     <div className="user-page">
