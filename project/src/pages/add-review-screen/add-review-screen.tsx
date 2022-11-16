@@ -2,14 +2,17 @@ import {Helmet} from 'react-helmet-async';
 import {Link, useParams} from 'react-router-dom';
 import AddReview from '../../components/add-review/add-review';
 import Logo from '../../components/logo/logo';
-import {getFilmById} from '../../mocks/films';
+import {useAppSelector} from '../../hooks';
+import {getFilmById} from '../../services/film';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
 function AddReviewScreen(): JSX.Element {
 
   const params = useParams();
-  const film = getFilmById(Number(params.id));
+
+  const films = useAppSelector((state) => state.films);
+  const film = getFilmById(Number(params.id), films);
 
   if (!film) {
     return <NotFoundScreen />;
@@ -19,12 +22,12 @@ function AddReviewScreen(): JSX.Element {
     <section className="film-card film-card--full">
 
       <Helmet>
-        <title>{film.title}</title>
+        <title>{film.name}</title>
       </Helmet>
 
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.bgImage ?? film.img} alt={film.title} />
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -35,7 +38,7 @@ function AddReviewScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.title}</Link>
+                <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -56,7 +59,7 @@ function AddReviewScreen(): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.img} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={film.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
         </div>
       </div>
 

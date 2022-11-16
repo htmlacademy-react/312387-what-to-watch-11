@@ -34,3 +34,8 @@ export enum FilmValue {
   MaxReletedCount = 4,
   DefaultStateGenre = 'All genre'
 }
+
+export enum APIRoute {
+  Films = '/films',
+  Promo = '/promo',
+}

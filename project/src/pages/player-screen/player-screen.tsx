@@ -1,7 +1,8 @@
 import {useState, useEffect, useRef} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {getFilmById} from '../../mocks/films';
 import {ErrorMessage, TimeValue} from '../../const';
+import { useAppSelector } from '../../hooks';
+import { getFilmById } from '../../services/film';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
@@ -12,7 +13,9 @@ function PlayerScreen(): JSX.Element {
   const navigate = useNavigate();
 
   const params = useParams();
-  const film = getFilmById(Number(params.id));
+
+  const films = useAppSelector((state) => state.films);
+  const film = getFilmById(Number(params.id), films);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
@@ -112,10 +115,10 @@ function PlayerScreen(): JSX.Element {
   return (
     <div className="player">
       <video
-        src={film.src}
+        src={film.videoLink}
         ref={videoRef}
         className="player__video"
-        poster={film.img}
+        poster={film.posterImage}
         muted={false}
       >
         {ErrorMessage.VideoSupport}
@@ -142,7 +145,7 @@ function PlayerScreen(): JSX.Element {
           <button onClick={() => setIsPlaying(!isPlaying)} type="button" className="player__play">
             {isPlaying ? getPauseButton() : getPlayButton()}
           </button>
-          <div className="player__name">{film.title}</div>
+          <div className="player__name">{film.name}</div>
 
           <button onClick={() => setFullScreen(true)} type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width="27" height="27">
