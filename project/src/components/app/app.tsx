@@ -16,9 +16,10 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 function App(): JSX.Element {
 
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoading);
 
-  if (isFilmsDataLoading) {
+  if (authorizationStatus === AuthorizationStatus.Unknown || isFilmsDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -38,7 +39,7 @@ function App(): JSX.Element {
             path={AppRoute.MyList}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={authorizationStatus}
               >
                 <MyListScreen />
               </PrivateRoute>
@@ -48,7 +49,7 @@ function App(): JSX.Element {
             path={AppRoute.AddReview}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={authorizationStatus}
               >
                 <AddReviewScreen />
               </PrivateRoute>

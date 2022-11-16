@@ -12,7 +12,6 @@ import {getFilmsByGenre, getGenresList} from '../../services/film';
 
 function MainScreen(): JSX.Element {
 
-  const promo = useAppSelector((state) => state.promo);
   const smallFilmCards = useAppSelector((state) => state.films);
 
   const activeGenre = useAppSelector((state) => state.activeGenre);
@@ -51,7 +50,7 @@ function MainScreen(): JSX.Element {
         <title>WTW main page</title>
       </Helmet>
 
-      {promo ? <FilmCard film={promo}/> : 'Loading...'}
+      <FilmCard />
 
       <div className="page-content">
         <section className="catalog">
