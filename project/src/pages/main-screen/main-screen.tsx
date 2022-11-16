@@ -3,39 +3,42 @@ import FilmCard from '../../components/film-card/film-card';
 import FilmsList from '../../components/films-list/films-list';
 import GenresList from '../../components/genres-list/genres-list';
 import Logo from '../../components/logo/logo';
-import {getGenresList} from '../../mocks/films';
 import {useAppSelector} from '../../hooks';
-import {promoFilm} from '../../mocks/films';
 import ShowMore from '../../components/show-more/show-more';
 import {useEffect, useState } from 'react';
 import {FilmValue} from '../../const';
 import {Films} from '../../types/film';
+import {getFilmsByGenre, getGenresList} from '../../services/film';
 
 function MainScreen(): JSX.Element {
 
-  const smallFilmCards = useAppSelector((state) => state.filmsByGenre);
+  const promo = useAppSelector((state) => state.promo);
+  const smallFilmCards = useAppSelector((state) => state.films);
 
   const activeGenre = useAppSelector((state) => state.activeGenre);
-  const genresList = getGenresList();
+  const genresList = getGenresList(smallFilmCards);
 
+  const [filmsByGenre, sefFilmsByGenre] = useState<Films>([]);
   const [visibleFilmCards, setVisibleFilmCards] = useState<Films>([]);
 
   useEffect(() => {
     let isFilmsListMounted = true;
 
     if (isFilmsListMounted) {
-      setVisibleFilmCards(smallFilmCards.slice(0, FilmValue.MaxCount));
+      const sortedFilms = getFilmsByGenre(activeGenre, smallFilmCards);
+      sefFilmsByGenre(sortedFilms);
+      setVisibleFilmCards(sortedFilms.slice(0, FilmValue.MaxCount));
     }
 
     return () => {
       isFilmsListMounted = false;
     };
-  }, [smallFilmCards]);
+  }, [activeGenre, smallFilmCards]);
 
   function handleMoreButtonClick() {
     setVisibleFilmCards((prevState) => [
       ...prevState,
-      ...smallFilmCards.slice(
+      ...filmsByGenre.slice(
         visibleFilmCards.length,
         visibleFilmCards.length + FilmValue.MaxCount
       )
@@ -48,7 +51,7 @@ function MainScreen(): JSX.Element {
         <title>WTW main page</title>
       </Helmet>
 
-      <FilmCard film={promoFilm}/>
+      {promo ? <FilmCard film={promo}/> : 'Loading...'}
 
       <div className="page-content">
         <section className="catalog">
@@ -58,7 +61,7 @@ function MainScreen(): JSX.Element {
 
           <FilmsList smallFilmCards={visibleFilmCards} />
 
-          {smallFilmCards.length > visibleFilmCards.length && <ShowMore onMore={handleMoreButtonClick} />}
+          {filmsByGenre.length > visibleFilmCards.length && <ShowMore onMore={handleMoreButtonClick} />}
         </section>
 
         <footer className="page-footer">

@@ -1,6 +1,10 @@
 import {createAction} from '@reduxjs/toolkit';
-import { Films } from '../types/film';
+import {Film, Films} from '../types/film';
 
 export const setActiveGenre = createAction<{genre: string}>('film/setActiveGenre');
 
-export const setFilmsByGenre = createAction<{filmsByGenre: Films}>('film/setFilmsByGenre');
+export const loadPromo = createAction<Film>('data/loadPromo');
+
+export const loadFilms = createAction<Films>('data/loadFilms');
+
+export const setFilmsDataLoadingStatus = createAction<boolean>('data/setFilmsDataLoadingStatus');

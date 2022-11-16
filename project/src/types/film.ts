@@ -1,16 +1,22 @@
 
 export type Film = {
   id: number;
-  title: string;
-  genre: string;
-  year: string;
-  img: string;
-  bgImage?: string;
-  time: string;
-  src: string;
+  name: string;
+  posterImage: string;
+  previewImage: string;
+  backgroundImage: string;
+  backgroundColor: string;
+  videoLink: string;
+  previewVideoLink: string;
+  description: string;
+  rating: number;
+  scoresCount: number;
   director: string;
   starring: string[];
-  description: string;
+  runTime: number;
+  genre: string;
+  released: number;
+  isFavorite: boolean;
 }
 
 export type Films = Film[];
