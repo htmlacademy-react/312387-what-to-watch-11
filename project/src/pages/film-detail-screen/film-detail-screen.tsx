@@ -7,6 +7,7 @@ import FilmOverview from '../../components/film-overview/film-overview';
 import FilmReviews from '../../components/film-reviews/film-reviews';
 import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
+import PageHeader from '../../components/page-header/page-header';
 import {FilmValue, Nav} from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getFilmById, getFilmsByGenre } from '../../services/film';
@@ -55,20 +56,7 @@ function FilmDetailScreen(): JSX.Element {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header film-card__head">
-            <Logo />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
-          </header>
+          <PageHeader />
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
