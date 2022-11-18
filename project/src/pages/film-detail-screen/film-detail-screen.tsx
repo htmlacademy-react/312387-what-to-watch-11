@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet-async';
 import {Link, useParams} from 'react-router-dom';
 import FilmDetails from '../../components/film-details/film-details';
@@ -8,9 +8,12 @@ import FilmReviews from '../../components/film-reviews/film-reviews';
 import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
 import PageHeader from '../../components/page-header/page-header';
-import {FilmValue, Nav} from '../../const';
-import { useAppSelector } from '../../hooks';
-import { getFilmById, getFilmsByGenre } from '../../services/film';
+import {AuthorizationStatus, FilmValue, Nav} from '../../const';
+import {useAppSelector} from '../../hooks';
+import {getFilmsByGenre } from '../../services/film';
+import { store } from '../../store';
+import { fetchFilmAction, fetchReviewsAction } from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function FilmDetailScreen(): JSX.Element {
@@ -19,8 +22,31 @@ function FilmDetailScreen(): JSX.Element {
 
   const params = useParams();
 
+  useEffect(() => {
+    let isFilmDetailMounted = true;
+
+    if (isFilmDetailMounted) {
+      store.dispatch(fetchFilmAction(Number(params.id)));
+      store.dispatch(fetchReviewsAction(Number(params.id)));
+    }
+
+    return () => {
+      isFilmDetailMounted = false;
+    };
+  }, [params.id]);
+
+  const reviews = useAppSelector((state) => state.reviews);
   const films = useAppSelector((state) => state.films);
-  const film = getFilmById(Number(params.id), films);
+  const film = useAppSelector((state) => state.film);
+
+  const isFilmDataLoading = useAppSelector((state) => state.isFilmDataLoading);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  if (isFilmDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (!film) {
     return <NotFoundScreen />;
@@ -35,7 +61,7 @@ function FilmDetailScreen(): JSX.Element {
       case Nav.Details:
         return <FilmDetails film={film}/>;
       case Nav.Reviews:
-        return <FilmReviews film={film}/>;
+        return <FilmReviews reviews={reviews}/>;
       default:
         return <FilmOverview film={film}/>;
     }
@@ -80,7 +106,8 @@ function FilmDetailScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={`/films/${film.id}/review`} className="btn film-card__button" >Add review</Link>
+                {authorizationStatus === AuthorizationStatus.Auth &&
+                  <Link to={`/films/${film.id}/review`} className="btn film-card__button" >Add review</Link>}
               </div>
             </div>
           </div>

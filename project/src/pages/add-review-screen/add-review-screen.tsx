@@ -1,19 +1,15 @@
 import {Helmet} from 'react-helmet-async';
-import {Link, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import AddReview from '../../components/add-review/add-review';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import {useAppSelector} from '../../hooks';
-import {getFilmById} from '../../services/film';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
 function AddReviewScreen(): JSX.Element {
 
-  const params = useParams();
-
-  const films = useAppSelector((state) => state.films);
-  const film = getFilmById(Number(params.id), films);
+  const film = useAppSelector((state) => state.film);
 
   if (!film) {
     return <NotFoundScreen />;
@@ -42,7 +38,7 @@ function AddReviewScreen(): JSX.Element {
                 <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link">Add review</a>
+                <span className="breadcrumbs__link">Add review</span>
               </li>
             </ul>
           </nav>

@@ -36,7 +36,7 @@ function LoginScreen(): JSX.Element {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       navigate(AppRoute.Root);
     }
-  }, [authorizationStatus]);
+  }, []);
 
   return (
     <div className="user-page">
