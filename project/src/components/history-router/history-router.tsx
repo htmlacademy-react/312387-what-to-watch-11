@@ -12,7 +12,7 @@ function HistoryRouter({
   basename,
   children,
   history,
-}: HistoryRouterProps) {
+}: HistoryRouterProps): JSX.Element {
   const [state, setState] = useState({
     action: history.action,
     location: history.location,
