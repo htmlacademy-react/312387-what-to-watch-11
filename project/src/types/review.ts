@@ -1,10 +1,11 @@
+import {UserData} from './user-data';
+
 export type Review = {
-  id: number;
-  text: string;
-  rating: string;
-  author: string;
-  date: string;
-  formatDate: string;
+  id?: number;
+  comment: string;
+  rating: number;
+  user?: UserData;
+  date?: string;
 }
 
 export type Reviews = Review[];

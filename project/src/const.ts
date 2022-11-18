@@ -39,5 +39,14 @@ export enum APIRoute {
   Films = '/films',
   Promo = '/promo',
   Login = '/login',
-  Logout = '/logout'
+  Logout = '/logout',
+  Reviews = '/comments',
+}
+
+export enum Rating {
+  Bad = 0,
+  Normal = 3,
+  Good = 5,
+  VeryGood = 8,
+  Awesome = 10
 }

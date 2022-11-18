@@ -1,3 +1,4 @@
+import { getFilmRating, getFilmRatingLevel } from '../../services/film';
 import {Film} from '../../types/film';
 
 type FilmOverviewProps = {
@@ -8,10 +9,10 @@ function FilmOverview({film}: FilmOverviewProps): JSX.Element {
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">8,9</div>
+        <div className="film-rating__score">{getFilmRating(film.rating)}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good</span>
-          <span className="film-rating__count">240 ratings</span>
+          <span className="film-rating__level">{getFilmRatingLevel(film.rating)}</span>
+          <span className="film-rating__count">{film.scoresCount} ratings</span>
         </p>
       </div>
 
