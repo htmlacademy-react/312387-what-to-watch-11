@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {memo, useState} from 'react';
 import {TimeValue} from '../../const';
 import {Films} from '../../types/film';
 import SmallFilmCard from '../../components/small-film-card/small-film-card';
@@ -41,4 +41,7 @@ function FilmsList({smallFilmCards}: FilmsListProps): JSX.Element {
   );
 }
 
-export default FilmsList;
+export default memo(FilmsList, (prevProps, nextProps) => {
+  const isEqual = JSON.stringify(prevProps.smallFilmCards) === JSON.stringify(nextProps.smallFilmCards);
+  return isEqual;
+});
