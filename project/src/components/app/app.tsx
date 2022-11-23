@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 
 import MainScreen from '../../pages/main-screen/main-screen';
 
@@ -16,15 +16,26 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 
+import {getAuthorizationStatus, getAuthCheckedStatus} from '../../store/user-process/selectors';
+import {getFilmsDataLoadingStatus, getErrorStatus} from '../../store/film-data/selectors';
+import ErrorScreen from '../../pages/error-screen/error-screen';
+
 function App(): JSX.Element {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isFilmsDataLoading = useAppSelector((state) => state.isFilmsDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const hasError = useAppSelector(getErrorStatus);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown || isFilmsDataLoading) {
+  if (!isAuthChecked || isFilmsDataLoading) {
     return (
       <LoadingScreen />
     );
+  }
+
+  if (hasError) {
+    return (
+      <ErrorScreen />);
   }
 
   return (

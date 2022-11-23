@@ -1,15 +1,41 @@
+import { useEffect } from 'react';
 import {Helmet} from 'react-helmet-async';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import AddReview from '../../components/add-review/add-review';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import {useAppSelector} from '../../hooks';
+import { store } from '../../store';
+import { fetchFilmAction } from '../../store/api-actions';
+import { getFilm, getFilmDataLoadingStatus } from '../../store/film-data/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
 function AddReviewScreen(): JSX.Element {
 
-  const film = useAppSelector((state) => state.film);
+  const params = useParams();
+
+  useEffect(() => {
+    let isFilmDetailMounted = true;
+
+    if (isFilmDetailMounted) {
+      store.dispatch(fetchFilmAction(Number(params.id)));
+    }
+
+    return () => {
+      isFilmDetailMounted = false;
+    };
+  }, [params.id]);
+
+  const film = useAppSelector(getFilm);
+  const isFilmDataLoading = useAppSelector(getFilmDataLoadingStatus);
+
+  if (isFilmDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (!film) {
     return <NotFoundScreen />;
