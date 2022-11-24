@@ -10,7 +10,9 @@ export type FilmData = {
   reviews: Reviews;
   activeGenre: string;
   isFilmDataLoading: boolean;
+  isFavoriteDataLoading: boolean;
   films: Films;
+  favorites: Films;
   isFilmsDataLoading: boolean;
   hasError: boolean;
 };

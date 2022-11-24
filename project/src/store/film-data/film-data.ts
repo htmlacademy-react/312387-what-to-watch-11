@@ -1,14 +1,16 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {FilmValue, NameSpace} from '../../const';
 import {FilmData} from '../../types/state';
-import {fetchFilmsAction, fetchPromoAction, fetchFilmAction, fetchReviewsAction} from '../api-actions';
+import {fetchFilmsAction, fetchPromoAction, fetchFilmAction, fetchReviewsAction, fetchFavoritesAction} from '../api-actions';
 
 const initialState: FilmData = {
   films: [],
   reviews: [],
+  favorites: [],
   activeGenre: FilmValue.DefaultStateGenre as string,
   isFilmDataLoading: false,
   isFilmsDataLoading: false,
+  isFavoriteDataLoading: false,
   hasError: false,
 };
 
@@ -58,6 +60,18 @@ export const filmData = createSlice({
         state.reviews = action.payload;
       })
       .addCase(fetchReviewsAction.rejected, (state) => {
+        state.hasError = true;
+      })
+      .addCase(fetchFavoritesAction.pending, (state) => {
+        state.isFavoriteDataLoading = true;
+        state.hasError = false;
+      })
+      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+        state.favorites = action.payload;
+        state.isFavoriteDataLoading = false;
+      })
+      .addCase(fetchFavoritesAction.rejected, (state) => {
+        state.isFavoriteDataLoading = false;
         state.hasError = true;
       });
   }

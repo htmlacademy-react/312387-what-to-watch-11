@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 import MainScreen from '../../pages/main-screen/main-screen';
 
@@ -19,6 +19,9 @@ import browserHistory from '../../browser-history';
 import {getAuthorizationStatus, getAuthCheckedStatus} from '../../store/user-process/selectors';
 import {getFilmsDataLoadingStatus, getErrorStatus} from '../../store/film-data/selectors';
 import ErrorScreen from '../../pages/error-screen/error-screen';
+import {store} from '../../store';
+import {fetchFavoritesAction} from '../../store/api-actions';
+import {useEffect} from 'react';
 
 function App(): JSX.Element {
 
@@ -26,6 +29,18 @@ function App(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
   const hasError = useAppSelector(getErrorStatus);
+
+  useEffect(() => {
+    let isMyListMounted = true;
+
+    if (isMyListMounted && authorizationStatus === AuthorizationStatus.Auth) {
+      store.dispatch(fetchFavoritesAction());
+    }
+
+    return () => {
+      isMyListMounted = false;
+    };
+  }, [authorizationStatus]);
 
   if (!isAuthChecked || isFilmsDataLoading) {
     return (

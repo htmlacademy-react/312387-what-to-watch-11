@@ -1,13 +1,21 @@
 import {Helmet} from 'react-helmet-async';
 import FilmsList from '../../components/films-list/films-list';
-import Logo from '../../components/logo/logo';
+import Footer from '../../components/footer/footer';
 import PageHeader from '../../components/page-header/page-header';
 import {useAppSelector} from '../../hooks';
-import { getFilms } from '../../store/film-data/selectors';
+import {getFavorites, getFavoriteDataLoadingStatus} from '../../store/film-data/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function MyListScreen(): JSX.Element {
 
-  const smallFilmCards = useAppSelector(getFilms);
+  const smallFilmCards = useAppSelector(getFavorites);
+  const isFavoriteDataLoading = useAppSelector(getFavoriteDataLoadingStatus);
+
+  if (isFavoriteDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <div className="user-page">
@@ -24,13 +32,7 @@ function MyListScreen(): JSX.Element {
         <FilmsList smallFilmCards={smallFilmCards} />
       </section>
 
-      <footer className="page-footer">
-        <Logo light />
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

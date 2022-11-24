@@ -16,3 +16,6 @@ export const getFilmsDataLoadingStatus = (state: State): boolean => state[NameSp
 export const getErrorStatus = (state: State): boolean => state[NameSpace.Data].hasError;
 
 export const getReviews = (state: State): Reviews => state[NameSpace.Data].reviews;
+
+export const getFavorites = (state: State): Films => state[NameSpace.Data].favorites;
+export const getFavoriteDataLoadingStatus = (state: State): boolean => state[NameSpace.Data].isFavoriteDataLoading;

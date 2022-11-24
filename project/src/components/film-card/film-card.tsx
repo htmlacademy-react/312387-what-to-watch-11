@@ -1,8 +1,8 @@
-import { memo } from 'react';
-import {Link} from 'react-router-dom';
+import {memo} from 'react';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
-import { getPromo } from '../../store/film-data/selectors';
+import {getPromo} from '../../store/film-data/selectors';
+import FilmCardButtons from '../film-card-buttons/film-card-buttons';
 import PageHeader from '../page-header/page-header';
 
 function FilmCard(): JSX.Element {
@@ -30,7 +30,7 @@ function FilmCard(): JSX.Element {
       <div className="film-card__wrap">
         <div className="film-card__info">
           <div className="film-card__poster">
-            <img src={film.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+            <img src={film.posterImage} alt={film.name} width="218" height="327" />
           </div>
 
           <div className="film-card__desc">
@@ -40,21 +40,7 @@ function FilmCard(): JSX.Element {
               <span className="film-card__year">{film.released}</span>
             </p>
 
-            <div className="film-card__buttons">
-              <Link to={`/player/${film.id}`} className="btn btn--play film-card__button" >
-                <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref="#play-s"></use>
-                </svg>
-                <span>Play</span>
-              </Link>
-              <button className="btn btn--list film-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add"></use>
-                </svg>
-                <span>My list</span>
-                <span className="film-card__count">9</span>
-              </button>
-            </div>
+            <FilmCardButtons filmId={film.id} isPromo />
           </div>
         </div>
       </div>
