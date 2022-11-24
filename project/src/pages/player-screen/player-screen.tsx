@@ -86,16 +86,23 @@ function PlayerScreen(): JSX.Element {
       }
     });
 
+    return () => {
+      isVideoPlayerMounted = false;
+    };
+
+  });
+
+  useEffect(() => {
+    if (videoRef.current === null) {
+      return;
+    }
+
     if (isPlaying) {
       videoRef.current.play();
       return;
     }
 
     videoRef.current.pause();
-
-    return () => {
-      isVideoPlayerMounted = false;
-    };
 
   }, [isPlaying]);
 
