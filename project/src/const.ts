@@ -50,3 +50,8 @@ export enum Rating {
   VeryGood = 8,
   Awesome = 10
 }
+
+export enum NameSpace {
+  Data = 'DATA',
+  User = 'USER',
+}

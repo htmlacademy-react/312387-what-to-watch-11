@@ -1,7 +1,11 @@
 import {useState, useEffect, useRef} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {ErrorMessage, TimeValue} from '../../const';
 import { useAppSelector } from '../../hooks';
+import { store } from '../../store';
+import { fetchFilmAction } from '../../store/api-actions';
+import { getFilm, getFilmDataLoadingStatus } from '../../store/film-data/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
@@ -11,7 +15,21 @@ function PlayerScreen(): JSX.Element {
 
   const navigate = useNavigate();
 
-  const film = useAppSelector((state) => state.film);
+  const params = useParams();
+
+  useEffect(() => {
+    let isFilmDetailMounted = true;
+
+    if (isFilmDetailMounted) {
+      store.dispatch(fetchFilmAction(Number(params.id)));
+    }
+
+    return () => {
+      isFilmDetailMounted = false;
+    };
+  }, [params.id]);
+
+  const film = useAppSelector(getFilm);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
@@ -35,6 +53,18 @@ function PlayerScreen(): JSX.Element {
     result.push((`0${seconds}`).slice(-2));
 
     return result.join(':');
+  }
+
+  function openCrossFullScreen(element: HTMLVideoElement): void {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.mozRequestFullscreen) {
+      element.mozRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
   }
 
   useEffect(() => {
@@ -75,12 +105,19 @@ function PlayerScreen(): JSX.Element {
     }
 
     if (fullScreen) {
-      videoRef.current.requestFullscreen();
+      openCrossFullScreen(videoRef.current);
     }
 
     return () => setFullScreen(false);
   }, [fullScreen]);
 
+  const isFilmDataLoading = useAppSelector(getFilmDataLoadingStatus);
+
+  if (isFilmDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   if (!film) {
     return <NotFoundScreen />;

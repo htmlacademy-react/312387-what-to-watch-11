@@ -1,6 +1,7 @@
 import Logo from '../logo/logo';
 import cn from 'classnames';
 import UserBlock from '../user-block/user-block';
+import {memo} from 'react';
 
 type PageHeaderProps = {
   filmCount?: number;
@@ -26,4 +27,4 @@ function PageHeader({filmCount}: PageHeaderProps): JSX.Element {
   );
 }
 
-export default PageHeader;
+export default memo(PageHeader, (prevProps, nextProps) => prevProps.filmCount === nextProps.filmCount);

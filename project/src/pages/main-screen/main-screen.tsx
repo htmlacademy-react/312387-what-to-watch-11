@@ -2,19 +2,20 @@ import {Helmet} from 'react-helmet-async';
 import FilmCard from '../../components/film-card/film-card';
 import FilmsList from '../../components/films-list/films-list';
 import GenresList from '../../components/genres-list/genres-list';
-import Logo from '../../components/logo/logo';
 import {useAppSelector} from '../../hooks';
 import ShowMore from '../../components/show-more/show-more';
 import {useEffect, useState } from 'react';
 import {FilmValue} from '../../const';
 import {Films} from '../../types/film';
 import {getFilmsByGenre, getGenresList} from '../../services/film';
+import { getActiveGenre, getFilms } from '../../store/film-data/selectors';
+import Footer from '../../components/footer/footer';
 
 function MainScreen(): JSX.Element {
 
-  const smallFilmCards = useAppSelector((state) => state.films);
+  const smallFilmCards = useAppSelector(getFilms);
 
-  const activeGenre = useAppSelector((state) => state.activeGenre);
+  const activeGenre = useAppSelector(getActiveGenre);
   const genresList = getGenresList(smallFilmCards);
 
   const [filmsByGenre, sefFilmsByGenre] = useState<Films>([]);
@@ -63,12 +64,7 @@ function MainScreen(): JSX.Element {
           {filmsByGenre.length > visibleFilmCards.length && <ShowMore onMore={handleMoreButtonClick} />}
         </section>
 
-        <footer className="page-footer">
-          <Logo light />
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

@@ -1,21 +1,17 @@
 import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import {useNavigate} from 'react-router-dom';
-import {FormEvent, useState, ChangeEvent, useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {FormEvent, useState, ChangeEvent} from 'react';
+import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../types/auth-data';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import Footer from '../../components/footer/footer';
 
 function LoginScreen(): JSX.Element {
-
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const [loginValue, setLoginValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -31,12 +27,6 @@ function LoginScreen(): JSX.Element {
       });
     }
   };
-
-  useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
-      navigate(AppRoute.Root);
-    }
-  }, [authorizationStatus, navigate]);
 
   return (
     <div className="user-page">
@@ -87,13 +77,7 @@ function LoginScreen(): JSX.Element {
         </form>
       </div>
 
-      <footer className="page-footer">
-        <Logo light />
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

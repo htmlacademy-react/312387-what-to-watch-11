@@ -1,10 +1,12 @@
+import { memo } from 'react';
 import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import { getPromo } from '../../store/film-data/selectors';
 import PageHeader from '../page-header/page-header';
 
 function FilmCard(): JSX.Element {
-  const film = useAppSelector((state) => state.promo);
+  const film = useAppSelector(getPromo);
 
   if (!film) {
     return (
@@ -60,4 +62,4 @@ function FilmCard(): JSX.Element {
   );
 }
 
-export default FilmCard;
+export default memo(FilmCard);

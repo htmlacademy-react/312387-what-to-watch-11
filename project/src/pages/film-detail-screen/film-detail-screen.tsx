@@ -6,13 +6,15 @@ import FilmNav from '../../components/film-nav/film-nav';
 import FilmOverview from '../../components/film-overview/film-overview';
 import FilmReviews from '../../components/film-reviews/film-reviews';
 import FilmsList from '../../components/films-list/films-list';
-import Logo from '../../components/logo/logo';
+import Footer from '../../components/footer/footer';
 import PageHeader from '../../components/page-header/page-header';
 import {AuthorizationStatus, FilmValue, Nav} from '../../const';
 import {useAppSelector} from '../../hooks';
 import {getFilmsByGenre } from '../../services/film';
 import { store } from '../../store';
 import { fetchFilmAction, fetchReviewsAction } from '../../store/api-actions';
+import { getFilm, getFilmDataLoadingStatus, getFilms, getReviews} from '../../store/film-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
@@ -35,12 +37,12 @@ function FilmDetailScreen(): JSX.Element {
     };
   }, [params.id]);
 
-  const reviews = useAppSelector((state) => state.reviews);
-  const films = useAppSelector((state) => state.films);
-  const film = useAppSelector((state) => state.film);
+  const reviews = useAppSelector(getReviews);
+  const films = useAppSelector(getFilms);
+  const film = useAppSelector(getFilm);
 
-  const isFilmDataLoading = useAppSelector((state) => state.isFilmDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isFilmDataLoading = useAppSelector(getFilmDataLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (isFilmDataLoading) {
     return (
@@ -138,13 +140,7 @@ function FilmDetailScreen(): JSX.Element {
           <FilmsList smallFilmCards={relatedFilms} />
         </section>
 
-        <footer className="page-footer">
-          <Logo light />
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

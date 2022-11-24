@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import {Link} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
-import {setActiveGenre} from '../../store/action';
+import { setActiveGenre } from '../../store/film-data/film-data';
 
 type GenreListProps = {
   currentGenre: string;
