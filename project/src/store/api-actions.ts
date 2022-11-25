@@ -1,14 +1,13 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state';
-// import {redirectToRoute} from './action';
 import {APIRoute, AppRoute} from '../const';
 import {Film, Films} from '../types/film';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {dropToken, saveToken} from '../services/token';
-import { Review, Reviews } from '../types/review';
-import { redirectToRoute } from './action';
+import {Review, Reviews} from '../types/review';
+import {redirectToRoute} from './action';
 
 export const fetchFilmsAction = createAsyncThunk<Films, undefined, {
   dispatch: AppDispatch;
@@ -55,6 +54,30 @@ export const commentAction = createAsyncThunk<void, [number, Review], {
   'data/comment',
   async ([filmId, {comment, rating}], {dispatch, extra: api}) => {
     await api.post<Review>(`${APIRoute.Reviews}/${filmId}`, {comment, rating});
+  },
+);
+
+export const setFavoriteAction = createAsyncThunk<void, [number, boolean], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/setFavorite',
+  async ([filmId, status], {dispatch, extra: api}) => {
+    await api.post<Film>(`${APIRoute.Favorite}/${filmId}/${Number(status)}`);
+    dispatch(fetchFavoritesAction());
+  },
+);
+
+export const fetchFavoritesAction = createAsyncThunk<Films, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchFavorites',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<Films>(APIRoute.Favorite);
+    return data;
   },
 );
 
