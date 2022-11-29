@@ -1,4 +1,4 @@
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes, Navigate} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 import {AppRoute, AuthorizationStatus} from '../../const';
 
@@ -93,7 +93,11 @@ function App(): JSX.Element {
           />
           <Route
             path={AppRoute.Login}
-            element={<LoginScreen />}
+            element={
+              authorizationStatus === AuthorizationStatus.Auth ?
+                <Navigate to={AppRoute.Root} /> :
+                <LoginScreen />
+            }
           />
           <Route
             path="*"

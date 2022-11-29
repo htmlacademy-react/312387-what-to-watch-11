@@ -14,9 +14,9 @@ export enum AuthorizationStatus {
 }
 
 export enum Nav {
-  Overview = 'overview',
-  Details = 'details',
-  Reviews = 'reviews'
+  Overview = 'Overview',
+  Details = 'Details',
+  Reviews = 'Reviews'
 }
 
 export enum TimeValue {
@@ -26,13 +26,17 @@ export enum TimeValue {
 }
 
 export enum ErrorMessage {
-  VideoSupport = 'The video tag is not supported by your browser.'
+  VideoSupport = 'The video tag is not supported by your browser.',
+  InvalidEmail = 'Please enter a valid email address',
+  InvalidPassword = 'Please enter a valid password'
 }
 
 export enum FilmValue {
   MaxCount = 8,
+  MaxGenreCount = 9,
   MaxReletedCount = 4,
-  DefaultStateGenre = 'All genre'
+  MaxStarringCount = 2,
+  DefaultStateGenre = 'All genres'
 }
 
 export enum APIRoute {
@@ -55,4 +59,9 @@ export enum Rating {
 export enum NameSpace {
   Data = 'DATA',
   User = 'USER',
+}
+
+export enum ReviewValue {
+  MinValue = 50,
+  MaxValue = 400
 }

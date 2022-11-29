@@ -54,6 +54,7 @@ export const commentAction = createAsyncThunk<void, [number, Review], {
   'data/comment',
   async ([filmId, {comment, rating}], {dispatch, extra: api}) => {
     await api.post<Review>(`${APIRoute.Reviews}/${filmId}`, {comment, rating});
+    dispatch(redirectToRoute(`${APIRoute.Films}/${filmId}`));
   },
 );
 

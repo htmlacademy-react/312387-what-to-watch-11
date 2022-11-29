@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {Helmet} from 'react-helmet-async';
 import {useParams} from 'react-router-dom';
 import FilmCardButtons from '../../components/film-card-buttons/film-card-buttons';
@@ -20,7 +20,7 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function FilmDetailScreen(): JSX.Element {
 
-  const [currentView, setCurrentView] = useState('overview');
+  const [currentView, setCurrentView] = useState(Nav.Overview as string);
 
   const params = useParams();
 
@@ -43,6 +43,13 @@ function FilmDetailScreen(): JSX.Element {
 
   const isFilmDataLoading = useAppSelector(getFilmDataLoadingStatus);
 
+  const relatedFilms = useMemo(() => {
+    if (film && films) {
+      return getFilmsByGenre(film.genre, films).slice(0, FilmValue.MaxReletedCount);
+    }
+    return [];
+  }, [film, films]);
+
   if (isFilmDataLoading) {
     return (
       <LoadingScreen />
@@ -52,8 +59,6 @@ function FilmDetailScreen(): JSX.Element {
   if (!film) {
     return <NotFoundScreen />;
   }
-
-  const relatedFilms = getFilmsByGenre(film.genre, films).slice(0, FilmValue.MaxReletedCount);
 
   const renderSwitchView = (): JSX.Element => {
     switch (currentView) {

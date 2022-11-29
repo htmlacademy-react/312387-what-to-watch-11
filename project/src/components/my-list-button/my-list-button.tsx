@@ -14,11 +14,11 @@ function MyListButton({filmId}: MyListButtonProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  function handelerAddButtonClick() {
+  function handleAddButtonClick() {
     dispatch(setFavoriteAction([filmId, true]));
   }
 
-  function handelerRemoveButtonClick() {
+  function handleRemoveButtonClick() {
     dispatch(setFavoriteAction([filmId, false]));
   }
 
@@ -35,7 +35,7 @@ function MyListButton({filmId}: MyListButtonProps): JSX.Element {
       className="btn btn--list film-card__button"
       disabled={isFavoriteDataLoading}
       type="button"
-      onClick={inMyList ? handelerRemoveButtonClick : handelerAddButtonClick}
+      onClick={inMyList ? handleRemoveButtonClick : handleAddButtonClick}
     >
       {renderIcon()}
       <span>My list</span>

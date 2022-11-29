@@ -1,4 +1,5 @@
-import { getFilmRating, getFilmRatingLevel } from '../../services/film';
+import {FilmValue} from '../../const';
+import {getFilmRating, getFilmRatingLevel} from '../../services/film';
 import {Film} from '../../types/film';
 
 type FilmOverviewProps = {
@@ -19,7 +20,11 @@ function FilmOverview({film}: FilmOverviewProps): JSX.Element {
       <div className="film-card__text">
         <p>{film.description}</p>
         <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-        <p className="film-card__starring"><strong>Starring: {film.starring.slice(0, 4)} {film.starring.length > 4 && 'and other'}</strong></p>
+        <p className="film-card__starring">
+          <strong>
+            Starring: {film.starring.slice(0, FilmValue.MaxStarringCount).join(' ')} {film.starring.length > FilmValue.MaxStarringCount && 'and other'}
+          </strong>
+        </p>
       </div>
     </>
   );
