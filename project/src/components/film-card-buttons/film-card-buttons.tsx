@@ -30,7 +30,6 @@ function FilmCardButtons({filmId, isPromo}: FilmCardButtonsProps) {
         <span>Play</span>
       </Link>
 
-
       {authorizationStatus === AuthorizationStatus.Auth && renderPrivateButtons()}
     </div>
   );

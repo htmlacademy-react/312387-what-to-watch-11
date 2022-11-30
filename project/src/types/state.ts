@@ -14,6 +14,7 @@ export type FilmData = {
   films: Films;
   favorites: Films;
   isFilmsDataLoading: boolean;
+  isReviewDataLoading: boolean;
   hasError: boolean;
 };
 

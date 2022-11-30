@@ -4,11 +4,11 @@ import FilmsList from '../../components/films-list/films-list';
 import GenresList from '../../components/genres-list/genres-list';
 import {useAppSelector} from '../../hooks';
 import ShowMore from '../../components/show-more/show-more';
-import {useEffect, useState } from 'react';
+import {useEffect, useMemo, useState } from 'react';
 import {FilmValue} from '../../const';
 import {Films} from '../../types/film';
 import {getFilmsByGenre, getGenresList} from '../../services/film';
-import { getActiveGenre, getFilms } from '../../store/film-data/selectors';
+import {getActiveGenre, getFilms} from '../../store/film-data/selectors';
 import Footer from '../../components/footer/footer';
 
 function MainScreen(): JSX.Element {
@@ -16,7 +16,7 @@ function MainScreen(): JSX.Element {
   const smallFilmCards = useAppSelector(getFilms);
 
   const activeGenre = useAppSelector(getActiveGenre);
-  const genresList = getGenresList(smallFilmCards);
+  const genresList = useMemo(() => getGenresList(smallFilmCards).slice(0, FilmValue.MaxGenreCount), [smallFilmCards]);
 
   const [filmsByGenre, sefFilmsByGenre] = useState<Films>([]);
   const [visibleFilmCards, setVisibleFilmCards] = useState<Films>([]);

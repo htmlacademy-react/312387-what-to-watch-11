@@ -1,3 +1,5 @@
+import * as EmailValidator from 'email-validator';
+import cn from 'classnames';
 import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import {FormEvent, useState, ChangeEvent} from 'react';
@@ -5,13 +7,19 @@ import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../types/auth-data';
 import Footer from '../../components/footer/footer';
+import { ErrorMessage } from '../../const';
 
 function LoginScreen(): JSX.Element {
 
   const [loginValue, setLoginValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+
   const dispatch = useAppDispatch();
+
+  const checkPassword = (password: string) => password.match(/(?=.*[A-Za-zА-Яа-я])+(?=.*\d)+/);
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -20,13 +28,32 @@ function LoginScreen(): JSX.Element {
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginValue && passwordValue) {
+    let isCorrect = true;
+
+    if (!EmailValidator.validate(loginValue)) {
+      isCorrect = false;
+      setErrorEmail(true);
+    }
+
+    if (!checkPassword(passwordValue)) {
+      isCorrect = false;
+      setErrorPassword(true);
+    }
+
+    if (isCorrect) {
       onSubmit({
         login: loginValue,
         password: passwordValue,
       });
     }
+
   };
+
+  const renderErrorMessage = (message: string): JSX.Element => (
+    <div className="sign-in__message">
+      <p>{message}</p>
+    </div>
+  );
 
   return (
     <div className="user-page">
@@ -47,11 +74,24 @@ function LoginScreen(): JSX.Element {
           className="sign-in__form"
           onSubmit={handleFormSubmit}
         >
+          {errorEmail && renderErrorMessage(ErrorMessage.InvalidEmail)}
+          {errorPassword && renderErrorMessage(ErrorMessage.InvalidPassword)}
+
           <div className="sign-in__fields">
-            <div className="sign-in__field">
+            <div
+              className={cn(
+                'sign-in__field',
+                {'sign-in__field--error': errorEmail}
+              )}
+            >
               <input
                 className="sign-in__input"
-                onChange={({target}: ChangeEvent<HTMLInputElement>) : void => setLoginValue(target.value)}
+                onChange={({target}: ChangeEvent<HTMLInputElement>) : void => {
+                  if (errorEmail && EmailValidator.validate(target.value)) {
+                    setErrorEmail(false);
+                  }
+                  setLoginValue(target.value);
+                }}
                 type="email"
                 placeholder="Email address"
                 name="user-email"
@@ -59,10 +99,20 @@ function LoginScreen(): JSX.Element {
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
-            <div className="sign-in__field">
+            <div
+              className={cn(
+                'sign-in__field',
+                {'sign-in__field--error': errorPassword}
+              )}
+            >
               <input
                 className="sign-in__input"
-                onChange={({target}: ChangeEvent<HTMLInputElement>) : void => setPasswordValue(target.value)}
+                onChange={({target}: ChangeEvent<HTMLInputElement>) : void => {
+                  if (errorPassword && checkPassword(target.value)) {
+                    setErrorPassword(false);
+                  }
+                  setPasswordValue(target.value);
+                }}
                 type="password"
                 placeholder="Password"
                 name="user-password"

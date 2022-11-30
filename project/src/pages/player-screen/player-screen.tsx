@@ -1,10 +1,10 @@
 import {useState, useEffect, useRef} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {ErrorMessage, TimeValue} from '../../const';
-import { useAppSelector } from '../../hooks';
-import { store } from '../../store';
-import { fetchFilmAction } from '../../store/api-actions';
-import { getFilm, getFilmDataLoadingStatus } from '../../store/film-data/selectors';
+import {AppRoute, ErrorMessage, TimeValue} from '../../const';
+import {useAppSelector} from '../../hooks';
+import {store} from '../../store';
+import {fetchFilmAction} from '../../store/api-actions';
+import {getFilm, getFilmDataLoadingStatus} from '../../store/film-data/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
@@ -17,21 +17,9 @@ function PlayerScreen(): JSX.Element {
 
   const params = useParams();
 
-  useEffect(() => {
-    let isFilmDetailMounted = true;
-
-    if (isFilmDetailMounted) {
-      store.dispatch(fetchFilmAction(Number(params.id)));
-    }
-
-    return () => {
-      isFilmDetailMounted = false;
-    };
-  }, [params.id]);
-
   const film = useAppSelector(getFilm);
 
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [fullScreen, setFullScreen] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(0);
@@ -68,6 +56,18 @@ function PlayerScreen(): JSX.Element {
   }
 
   useEffect(() => {
+    let isFilmDetailMounted = true;
+
+    if (isFilmDetailMounted) {
+      store.dispatch(fetchFilmAction(Number(params.id)));
+    }
+
+    return () => {
+      isFilmDetailMounted = false;
+    };
+  }, [params.id]);
+
+  useEffect(() => {
     let isVideoPlayerMounted = true;
 
     if (videoRef.current === null) {
@@ -77,6 +77,7 @@ function PlayerScreen(): JSX.Element {
     videoRef.current.addEventListener('loadeddata', () => {
       if (videoRef.current && isVideoPlayerMounted) {
         setDurationTime(Math.trunc(videoRef.current.duration));
+        videoRef.current.play();
       }
     });
 
@@ -159,7 +160,7 @@ function PlayerScreen(): JSX.Element {
         ref={videoRef}
         className="player__video"
         poster={film.posterImage}
-        muted={false}
+        muted
       >
         {ErrorMessage.VideoSupport}
       </video>
@@ -167,7 +168,7 @@ function PlayerScreen(): JSX.Element {
       <button
         type="button"
         className="player__exit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(AppRoute.Root)}
       >
         Exit
       </button>
@@ -178,7 +179,7 @@ function PlayerScreen(): JSX.Element {
             <progress className="player__progress" value={currentTime} max={durationTime}></progress>
             <div className="player__toggler" style={{left: tooglerValue}}>Toggler</div>
           </div>
-          <div className="player__time-value">{countTimeLeft()}</div>
+          <div className="player__time-value">- {countTimeLeft()}</div>
         </div>
 
         <div className="player__controls-row">

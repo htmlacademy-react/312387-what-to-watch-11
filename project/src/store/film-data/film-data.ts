@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {FilmValue, NameSpace} from '../../const';
 import {FilmData} from '../../types/state';
-import {fetchFilmsAction, fetchPromoAction, fetchFilmAction, fetchReviewsAction, fetchFavoritesAction} from '../api-actions';
+import {fetchFilmsAction, fetchPromoAction, fetchFilmAction, fetchReviewsAction, fetchFavoritesAction, commentAction} from '../api-actions';
 
 const initialState: FilmData = {
   films: [],
@@ -11,6 +11,7 @@ const initialState: FilmData = {
   isFilmDataLoading: false,
   isFilmsDataLoading: false,
   isFavoriteDataLoading: false,
+  isReviewDataLoading: false,
   hasError: false,
 };
 
@@ -73,6 +74,15 @@ export const filmData = createSlice({
       .addCase(fetchFavoritesAction.rejected, (state) => {
         state.isFavoriteDataLoading = false;
         state.hasError = true;
+      })
+      .addCase(commentAction.pending, (state) => {
+        state.isReviewDataLoading = true;
+      })
+      .addCase(commentAction.fulfilled, (state, action) => {
+        state.isReviewDataLoading = false;
+      })
+      .addCase(commentAction.rejected, (state) => {
+        state.isReviewDataLoading = false;
       });
   }
 });

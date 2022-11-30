@@ -33,8 +33,8 @@ function FilmsList({smallFilmCards}: FilmsListProps): JSX.Element {
           key={`${film.id}`}
           film={film}
           isPlaying={activeFilmId === film.id}
-          handleFilmMouseEnter={() => handleFilmMouseEnter(film.id)}
-          handleFilmMouseOut={handleFilmMouseOut}
+          onFilmMouseEnter={() => handleFilmMouseEnter(film.id)}
+          onFilmMouseOut={handleFilmMouseOut}
         />
       ))}
     </div>

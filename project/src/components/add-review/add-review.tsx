@@ -1,27 +1,42 @@
-import {Fragment, ChangeEvent, useState, FormEvent} from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import {useAppDispatch} from '../../hooks';
+import {Fragment, ChangeEvent, useState, FormEvent, useEffect} from 'react';
+import {useParams} from 'react-router-dom';
+import {Rating, ReviewValue} from '../../const';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {commentAction} from '../../store/api-actions';
+import {getReviewDataLoadingStatus} from '../../store/film-data/selectors';
 import {Review} from '../../types/review';
 
 function AddReview(): JSX.Element {
 
   const params = useParams();
 
+  const [isDisabledSubmit, setIsDisabledSubmit] = useState(true);
   const [formData, setFormData] = useState({
     rating: '',
     comment: ''
   });
 
-  const ratingQuantity: number[] = Array.from({length: 10}, (_, i) => ++i);
+  const isReviewDataLoading = useAppSelector(getReviewDataLoadingStatus);
+
+  const ratingQuantity: number[] = Array.from({length: Rating.Awesome}, (_, i) => ++i);
 
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (formData.rating && formData.comment) {
+      if (
+        formData.comment.trim().length >= ReviewValue.MinValue &&
+        formData.comment.trim().length <= ReviewValue.MaxValue
+      ) {
+        setIsDisabledSubmit(false);
+        return;
+      }
+    }
+    setIsDisabledSubmit(true);
+  }, [formData]);
 
   const onSubmit = (review: Review) => {
     dispatch(commentAction([Number(params.id), review]));
-    navigate(-1);
   };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -57,6 +72,7 @@ function AddReview(): JSX.Element {
                   type="radio"
                   name="rating"
                   value={i}
+                  disabled={isReviewDataLoading}
                   onChange={handleFieldChange}
                   checked={i === Number(formData.rating)}
                 />
@@ -71,13 +87,22 @@ function AddReview(): JSX.Element {
             className="add-review__textarea"
             name="comment"
             id="comment"
+            minLength={ReviewValue.MinValue}
+            maxLength={ReviewValue.MaxValue}
             placeholder="Review text"
+            disabled={isReviewDataLoading}
             onChange={handleFieldChange}
             defaultValue={formData.comment}
           >
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">Post</button>
+            <button
+              className="add-review__btn"
+              type="submit"
+              disabled={isDisabledSubmit || isReviewDataLoading}
+            >
+              Post
+            </button>
           </div>
 
         </div>
